@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install python
-        uses: .
+        uses: ./
         with:
           python-version: 3.8
       - name: Test installation
