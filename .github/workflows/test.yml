@@ -24,3 +24,6 @@ jobs:
       - name: Test installation
         run: |
           python --version 2>&1 | grep -F "${{ matrix.python-version }}"
+          python3 --version 2>&1 | grep -F "${{ matrix.python-version }}"
+          test "$(python3 -m pip --version)" = "$(pip --version)"
+          test "$(python3 -m pip --version)" = "$(pip3 --version)"
