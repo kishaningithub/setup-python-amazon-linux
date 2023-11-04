@@ -1,14 +1,17 @@
-on: [push]
+on: [ push ]
 
 jobs:
   test_setup_python:
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
+        # This tests the amazon linux versions receiving standard support
+        # Refer - https://endoflife.date/amazon-linux
+        amazon-linux-version: [ 2, 2023 ]
         # This tests the lowest supported python version and the latest stable python version
         # Refer - https://devguide.python.org/versions/#status-of-python-versions
-        python-version: [ 3.8, 3.12]
+        python-version: [ 3.8, 3.12 ]
     runs-on: ubuntu-latest
+    container: amazonlinux:${{ matrix.amazon-linux-version }}
     steps:
       - uses: actions/checkout@v4
       - name: Install python
@@ -17,4 +20,4 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Test installation
         run: |
-          python --version 2>&1 | grep -F "{{matrix.python-version}}"
+          python --version 2>&1 | grep -F "${{ matrix.python-version }}"
