@@ -9,6 +9,11 @@ function setup_build_prerequisites() {
   sudo yum install -y wget gcc openssl-devel bzip2-devel libffi-devel
 }
 
+function set_aliases() {
+  pip3=$(which pip3)
+  sudo ln -sf "${pip3}" "$(dirname "${pip3}")/pip"
+}
+
 function setup_python() {
   python_version="$1"
   setup_build_prerequisites
@@ -28,9 +33,8 @@ function setup_python() {
       sudo make install
       echo "after install"
       pwd
-      ls
-      pip3=`which pip3`
-      sudo ln -sf $pip3 `dirname $pip3`/pip
+      ls "${python_installation_dir}"
+      set_aliases
     popd > /dev/null
   popd
 }
