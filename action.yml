@@ -1,0 +1,16 @@
+name: 'Setup python amazon linux'
+description: 'Adds support to install python in amazon linux'
+inputs:
+  python-version:
+    description: 'Version of python to be installed'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - id: setup-python
+      shell: bash
+      run: |
+        ./install-python.sh ${{ inputs.python-version }}
+branding:
+  icon: 'code'
+  color: 'yellow'
