@@ -2,13 +2,19 @@ on: [push]
 
 jobs:
   test_setup_python:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        # This tests the lowest supported python version and the latest stable python version
+        # Refer - https://devguide.python.org/versions/#status-of-python-versions
+        python-version: [ 3.8, 3.12]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install python
         uses: ./
         with:
-          python-version: 3.8
+          python-version: ${{ matrix.python-version }}
       - name: Test installation
         run: |
-          python --version
+          python --version 2>&1 | grep -F "{{matrix.python-version}}"
