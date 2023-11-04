@@ -12,7 +12,7 @@ function setup_build_prerequisites() {
 function setup_python() {
   python_version="$1"
   setup_build_prerequisites
-  temp_dir=$(mktmp -d)
+  temp_dir=$(mktemp -d)
   pushd "${temp_dir}" > /dev/null
     wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
     tar xvf "Python-${python_version}.tgz"
