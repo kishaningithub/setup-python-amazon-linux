@@ -12,8 +12,8 @@ function setup_build_prerequisites() {
 function setup_python() {
   python_version="$1"
   setup_build_prerequisites
-  mkdir -p ~/.python-versions
-  python_installation_dir=$(~/.python-versions)
+  python_installation_dir=~/setup-python-amazon-linux/.python-versions
+  mkdir -p "${python_installation_dir}"
 
   pushd "${python_installation_dir}" > /dev/null
     wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
