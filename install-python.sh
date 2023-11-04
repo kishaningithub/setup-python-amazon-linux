@@ -15,8 +15,8 @@ function setup_python() {
   temp_dir=$(mktemp -d)
   pushd "${temp_dir}" > /dev/null
     wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
-    tar xvf "Python-${python_version}.tgz"
-    pushd Python-3.8.4 > /dev/null
+    tar -zxf "Python-${python_version}.tgz"
+    pushd "Python-${python_version}" > /dev/null
       ./configure --enable-optimizations --with-ensurepip=install
       make -j 8
       sudo make install
