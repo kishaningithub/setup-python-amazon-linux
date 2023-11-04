@@ -12,17 +12,18 @@ function setup_build_prerequisites() {
 function setup_python() {
   python_version="$1"
   setup_build_prerequisites
-  python_installation_dir=~/setup-python-amazon-linux/.python-versions
+  python_installation_base_dir=~/setup-python-amazon-linux/.python-versions
+  python_installation_dir="${python_installation_base_dir}/${python_version}"
   mkdir -p "${python_installation_dir}"
 
-  pushd "${python_installation_dir}" > /dev/null
+  pushd "${python_installation_base_dir}" > /dev/null
     wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
-    tar -zxf "Python-${python_version}.tgz"
+    tar -zxf "Python-${python_version}.tgz" && rm -rf "Python-${python_version}.tgz"
     pushd "Python-${python_version}" > /dev/null
       echo "before configure"
       pwd
       ls
-      ./configure --enable-optimizations --prefix=.
+      ./configure --enable-optimizations --prefix="${python_installation_dir}"
       make -j 8
       sudo make install
       echo "after install"
