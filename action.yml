@@ -24,7 +24,7 @@ runs:
       with:
         path: |
           ${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
-        key: ${{ runner.os }}-${{ inputs.python-version }}-python
+        key: python-${{ inputs.python-version }}-${{ runner.arch }}
 
     - id: setup-python
       shell: bash
