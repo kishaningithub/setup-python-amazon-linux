@@ -11,11 +11,19 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Find exact python version
+      id: find-exact-python-version
+      shell: bash
+      run: |
+        exact_python_version=./find-exact-python-version.sh "${{ inputs.python-version }}"
+        echo "exact_python_version=${exact_python_version}" >> $GITHUB_OUTPUT
+
     - name: Set installation directory
       id: set-installation-directory
       shell: bash
       run: |
-        echo "INSTALLATION_DIRECTORY=~/setup-python-amazon-linux/.python-versions/${{ inputs.python-version }}" >> $GITHUB_OUTPUT
+        exact_python_version="${{ steps.find-exact-python-version.outputs.exact_python_version }}"
+        echo "installation_directory=~/setup-python-amazon-linux/.python-versions/${exact_python_version}" >> $GITHUB_OUTPUT
 
     - name: Cache
       id: cache-python
@@ -23,21 +31,22 @@ runs:
       if: inputs.cache == 'true'
       with:
         path: |
-          ${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
-        key: python-${{ inputs.python-version }}-${{ runner.arch }}
+          ${{ steps.set-installation-directory.outputs.installation_directory }}
+        key: python-${{ steps.find-exact-python-version.outputs.exact_python_version }}-${{ runner.arch }}
 
     - id: setup-python
       shell: bash
       if: inputs.cache == 'false' || (inputs.cache == 'true' && steps.cache-python.outputs.cache-hit != 'true')
       run: |
-        installation_directory=${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
+        installation_directory=${{ steps.set-installation-directory.outputs.installation_directory }}
         mkdir -p "${installation_directory}"
-        ./install-python.sh ${{ inputs.python-version }} "${installation_directory}"
+        exact_python_version="${{ steps.find-exact-python-version.outputs.exact_python_version }}"
+        ./install-python.sh  "${exact_python_version}" "${installation_directory}"
 
     - name: Add python to PATH
       shell: bash
       run: |
-        installation_directory=${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
+        installation_directory=${{ steps.set-installation-directory.outputs.installation_directory }}
         echo "${installation_directory}/bin" >> ${GITHUB_PATH}
 
 branding:

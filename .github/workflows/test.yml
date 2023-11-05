@@ -10,12 +10,8 @@ jobs:
         # This tests the lowest supported python version and the latest stable python version
         # Refer - https://devguide.python.org/versions/#status-of-python-versions
         python-version:
-          # Test full semver
           - 3.8.18
           - 3.12.0
-          # Test till minor release
-          #          - 3.8
-          #          - 3.12
         cache:
           - true
           - false
@@ -46,3 +42,41 @@ jobs:
           
           python --version 2>&1 | grep -F "${{ matrix.python-version }}"
           test "$(python3 -m pip --version)" = "$(pip --version)"
+
+  test_major_version_specification:
+    runs-on: ubuntu-latest
+    container: amazonlinux:2023
+    steps:
+      - name: Setup runner
+        run: |
+          yum install -y git tar gzip sudo which
+
+      - uses: actions/checkout@v3
+
+      - name: Install python
+        uses: ./
+        with:
+          python-version: 3
+
+      - name: Test installation
+        run: |
+          python3 --version 2>&1 | grep -F "3.12.0"
+
+  test_minor_version_specification:
+    runs-on: ubuntu-latest
+    container: amazonlinux:2023
+    steps:
+      - name: Setup runner
+        run: |
+          yum install -y git tar gzip sudo which
+
+      - uses: actions/checkout@v3
+
+      - name: Install python
+        uses: ./
+        with:
+          python-version: 3.9
+
+      - name: Test installation
+        run: |
+          python3 --version 2>&1 | grep -F "3.9.18"
