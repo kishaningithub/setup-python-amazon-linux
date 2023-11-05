@@ -49,7 +49,7 @@ jobs:
     steps:
       - name: Setup runner
         run: |
-          yum install -y git tar gzip sudo which
+          yum install -y git tar gzip sudo
 
       - uses: actions/checkout@v3
 
@@ -70,7 +70,7 @@ jobs:
     steps:
       - name: Setup runner
         run: |
-          yum install -y git tar gzip sudo which
+          yum install -y git tar gzip sudo
 
       - uses: actions/checkout@v3
 
