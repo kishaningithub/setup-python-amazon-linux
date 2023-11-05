@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-specified_version="3"
+specified_version="$1"
 
 # This versions map should be kept in sync with
 # - https://www.python.org/downloads/
