@@ -21,22 +21,22 @@ function setup_python() {
   python_installation_dir="${python_installation_base_dir}/${python_version}"
   mkdir -p "${python_installation_dir}"
 
-  pushd "${python_installation_base_dir}" > /dev/null
+  temp_dir=$(mktemp -d)
+
+  pushd "${temp_dir}" > /dev/null
     wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
-    tar -zxf "Python-${python_version}.tgz" && rm -rf "Python-${python_version}.tgz"
+    tar -zxf "Python-${python_version}.tgz"
     pushd "Python-${python_version}" > /dev/null
-      echo "before configure"
-      pwd
-      ls
       ./configure --enable-optimizations --prefix="${python_installation_dir}"
       make -j 8
       sudo make install
-      echo "after install"
-      pwd
-      ls "${python_installation_dir}"
-      set_aliases
     popd > /dev/null
   popd
+
+  rm -rf "${temp_dir}"
+
+  echo "{path}" >> $GITHUB_PATH
+
 }
 
 setup_python "$1"

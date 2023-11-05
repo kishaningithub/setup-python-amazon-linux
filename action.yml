@@ -4,13 +4,38 @@ inputs:
   python-version:
     description: 'Version of python to be installed'
     required: true
+  cache:
+    description: Used to specify whether caching is needed. Set to true, if you'd like to enable caching.
+    required: true
+    default: 'true'
 runs:
   using: "composite"
   steps:
-    - id: setup-python
+    - name: Set installation directory
+      id: set-installation-directory
       shell: bash
       run: |
-        ./install-python.sh ${{ inputs.python-version }}
+        echo "INSTALLATION_DIRECTORY=~/setup-python-amazon-linux/.python-versions/${{ inputs.python-version }}" >> $GITHUB_OUTPUT
+    - name: Cache
+      id: cache-python
+      uses: actions/cache@v3
+      if: inputs.cache == 'true'
+      with:
+        path: |
+          ${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
+        key: ${{ runner.os }}-${{ inputs.python-version }}-python
+
+    - id: setup-python
+      shell: bash
+      if: inputs.cache == 'true' && steps.cache-python.outputs.cache-hit != 'true'
+      run: |
+        installation_path=${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
+        mkdir -p "${installation_path}"
+        ./install-python.sh ${{ inputs.python-version }} "${installation_path}"
+    - name: Add python to PATH
+      run: |
+        
+
 branding:
   icon: 'code'
   color: 'yellow'
