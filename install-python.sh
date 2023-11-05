@@ -16,27 +16,21 @@ function set_aliases() {
 
 function setup_python() {
   python_version="$1"
+  python_installation_dir="$2"
+
   setup_build_prerequisites
-  python_installation_base_dir=~/setup-python-amazon-linux/.python-versions
-  python_installation_dir="${python_installation_base_dir}/${python_version}"
   mkdir -p "${python_installation_dir}"
-
   temp_dir=$(mktemp -d)
-
-  pushd "${temp_dir}" > /dev/null
+  pushd "${temp_dir}" >/dev/null
     wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
     tar -zxf "Python-${python_version}.tgz"
-    pushd "Python-${python_version}" > /dev/null
+    pushd "Python-${python_version}" >/dev/null
       ./configure --enable-optimizations --prefix="${python_installation_dir}"
       make -j 8
       sudo make install
-    popd > /dev/null
+    popd >/dev/null
   popd
-
   rm -rf "${temp_dir}"
-
-  echo "{path}" >> $GITHUB_PATH
-
 }
 
-setup_python "$1"
+setup_python "$1" "$2"

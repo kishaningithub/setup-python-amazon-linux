@@ -16,6 +16,7 @@ runs:
       shell: bash
       run: |
         echo "INSTALLATION_DIRECTORY=~/setup-python-amazon-linux/.python-versions/${{ inputs.python-version }}" >> $GITHUB_OUTPUT
+
     - name: Cache
       id: cache-python
       uses: actions/cache@v3
@@ -29,12 +30,15 @@ runs:
       shell: bash
       if: inputs.cache == 'true' && steps.cache-python.outputs.cache-hit != 'true'
       run: |
-        installation_path=${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
-        mkdir -p "${installation_path}"
-        ./install-python.sh ${{ inputs.python-version }} "${installation_path}"
+        installation_directory=${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
+        mkdir -p "${installation_directory}"
+        ./install-python.sh ${{ inputs.python-version }} "${installation_directory}"
+
     - name: Add python to PATH
+      shell: bash
       run: |
-        
+        installation_directory=${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
+        echo "${installation_directory}/bin" >> ${GITHUB_PATH}
 
 branding:
   icon: 'code'
