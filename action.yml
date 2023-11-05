@@ -15,7 +15,7 @@ runs:
       id: find-exact-python-version
       shell: bash
       run: |
-        exact_python_version=./find-exact-python-version.sh "${{ inputs.python-version }}"
+        exact_python_version=$(./find-exact-python-version.sh "${{ inputs.python-version }}")
         echo "exact_python_version=${exact_python_version}" >> $GITHUB_OUTPUT
 
     - name: Set installation directory
