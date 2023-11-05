@@ -6,15 +6,13 @@ set -euo pipefail
 
 function setup_build_prerequisites() {
   sudo yum groupinstall -y "Development Tools"
-  sudo yum install -y wget gcc openssl-devel bzip2-devel libffi-devel
+  sudo yum install -y tar gzip wget
+  sudo yum install -y gcc openssl-devel bzip2-devel libffi-devel
 }
 
 function set_aliases() {
-  python3=$(which python3)
-  sudo ln -sf "${python3}" "$(dirname "${python3}")/python"
-
-  pip3=$(which pip3)
-  sudo ln -sf "${pip3}" "$(dirname "${pip3}")/pip"
+  ln -sf "${python_installation_dir}/bin/python3" "${python_installation_dir}/bin/python"
+  ln -sf "${python_installation_dir}/bin/pip3" "${python_installation_dir}/bin/pip"
 }
 
 function setup_python() {
@@ -31,7 +29,7 @@ function setup_python() {
     pushd "Python-${python_version}" >/dev/null
       ./configure --enable-optimizations --prefix="${python_installation_dir}"
       make -j 8
-      sudo make install
+      make install
     popd >/dev/null
   popd
   rm -rf "${temp_dir}"
