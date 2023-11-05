@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Setup runner
         run: |
-          yum install -y git tar gzip sudo
+          yum install -y git tar gzip sudo which
       - uses: actions/checkout@v3
       - name: Install python
         uses: ./
