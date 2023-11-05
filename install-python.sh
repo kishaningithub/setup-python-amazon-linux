@@ -10,6 +10,9 @@ function setup_build_prerequisites() {
 }
 
 function set_aliases() {
+  python3=$(which python3)
+  sudo ln -sf "${python3}" "$(dirname "${python3}")/python"
+
   pip3=$(which pip3)
   sudo ln -sf "${pip3}" "$(dirname "${pip3}")/pip"
 }
