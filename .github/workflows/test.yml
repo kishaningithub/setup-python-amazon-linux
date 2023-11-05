@@ -60,6 +60,8 @@ jobs:
 
       - name: Test installation
         run: |
+          set -x
+          
           python3 --version 2>&1 | grep -F "3.12.0"
 
   test_minor_version_specification:
@@ -79,4 +81,6 @@ jobs:
 
       - name: Test installation
         run: |
+          set -x
+          
           python3 --version 2>&1 | grep -F "3.9.18"
