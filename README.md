@@ -1,5 +1,7 @@
 # setup-python-amazon-linux
 
+[![build-test](https://github.com/kishaningithub/setup-python-amazon-linux/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/kishaningithub/setup-python-amazon-linux/actions/workflows/test.yml)
+
 Github action to install python in all flavours of amazon linux. The goal of this action is to be a drop in replacement 
 for the github's official [setup-python action](https://github.com/actions/setup-python) to the maximum extent possible.
 
@@ -42,3 +44,7 @@ steps:
 ```
 
 For more options to the action, kindly refer [action.yml](./action.yml)
+
+## Contributing
+
+Contributions are most welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md)
