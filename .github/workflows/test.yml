@@ -1,14 +1,86 @@
-on: [push]
+on: [ push ]
 
 jobs:
   test_setup_python:
+    strategy:
+      matrix:
+        # This tests the amazon linux versions receiving standard support
+        # Refer - https://endoflife.date/amazon-linux
+        amazon-linux-version: [ 2, 2023 ]
+        # This tests the lowest supported python version and the latest stable python version
+        # Refer - https://devguide.python.org/versions/#status-of-python-versions
+        python-version:
+          - 3.8.18
+          - 3.12.0
+        cache:
+          - true
+          - false
     runs-on: ubuntu-latest
+    container: amazonlinux:${{ matrix.amazon-linux-version }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Setup runner
+        run: |
+          yum install -y git tar gzip sudo which
+
+      - uses: actions/checkout@v3
+
       - name: Install python
-        uses: .
+        uses: ./
         with:
-          python-version: 3.8
+          python-version: ${{ matrix.python-version }}
+          cache: ${{ matrix.cache }}
+
       - name: Test installation
         run: |
-          python --version
+          set -x
+          
+          which python3
+          which python
+          
+          python3 --version 2>&1 | grep -F "${{ matrix.python-version }}"
+          test "$(python3 -m pip --version)" = "$(pip3 --version)"
+          
+          python --version 2>&1 | grep -F "${{ matrix.python-version }}"
+          test "$(python3 -m pip --version)" = "$(pip --version)"
+
+  test_major_version_specification:
+    runs-on: ubuntu-latest
+    container: amazonlinux:2023
+    steps:
+      - name: Setup runner
+        run: |
+          yum install -y git tar gzip sudo
+
+      - uses: actions/checkout@v3
+
+      - name: Install python
+        uses: ./
+        with:
+          python-version: 3
+
+      - name: Test installation
+        run: |
+          set -x
+          
+          python3 --version 2>&1 | grep -F "3.12.0"
+
+  test_minor_version_specification:
+    runs-on: ubuntu-latest
+    container: amazonlinux:2023
+    steps:
+      - name: Setup runner
+        run: |
+          yum install -y git tar gzip sudo
+
+      - uses: actions/checkout@v3
+
+      - name: Install python
+        uses: ./
+        with:
+          python-version: 3.9
+
+      - name: Test installation
+        run: |
+          set -x
+          
+          python3 --version 2>&1 | grep -F "3.9.18"
