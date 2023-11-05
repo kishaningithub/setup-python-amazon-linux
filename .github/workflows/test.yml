@@ -25,12 +25,15 @@ jobs:
       - name: Setup runner
         run: |
           yum install -y git tar gzip sudo which
+
       - uses: actions/checkout@v3
+
       - name: Install python
         uses: ./
         with:
           python-version: ${{ matrix.python-version }}
           cache: ${{ matrix.cache }}
+
       - name: Test installation
         run: |
           set -x

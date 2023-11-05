@@ -28,7 +28,7 @@ runs:
 
     - id: setup-python
       shell: bash
-      if: inputs.cache == 'true' && steps.cache-python.outputs.cache-hit != 'true'
+      if: inputs.cache == 'false' || (inputs.cache == 'true' && steps.cache-python.outputs.cache-hit != 'true')
       run: |
         installation_directory=${{ steps.set-installation-directory.outputs.INSTALLATION_DIRECTORY }}
         mkdir -p "${installation_directory}"
