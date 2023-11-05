@@ -22,6 +22,7 @@ function setup_python() {
   python_installation_dir="$2"
 
   setup_build_prerequisites
+
   mkdir -p "${python_installation_dir}"
   temp_dir=$(mktemp -d)
   pushd "${temp_dir}" >/dev/null
@@ -34,6 +35,8 @@ function setup_python() {
     popd >/dev/null
   popd
   rm -rf "${temp_dir}"
+
+  set_aliases
 }
 
 setup_python "$1" "$2"
