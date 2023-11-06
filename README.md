@@ -17,7 +17,7 @@ All you have to do is change "setup-python" to "setup-python-amazon-linux" in yo
 ```yaml
 steps:
 - uses: actions/checkout@v3
-- uses: actions/setup-python-amazon-linux@v1
+- uses: kishaningithub/setup-python-amazon-linux@v1
   with:
     python-version: '3.10'
 - run: python my_script.py
