@@ -61,7 +61,7 @@ jobs:
       - name: Install python
         uses: ./
         with:
-          python-version: 3
+          python-version: "3"
 
       - name: Test installation
         run: |
@@ -82,7 +82,7 @@ jobs:
       - name: Install python
         uses: ./
         with:
-          python-version: 3.9
+          python-version: "3.9"
 
       - name: Test installation
         run: |
@@ -103,7 +103,7 @@ jobs:
       - name: Install python
         uses: ./
         with:
-          python-version: 3.10
+          python-version: "3.10"
 
       - name: Test installation
         run: |
