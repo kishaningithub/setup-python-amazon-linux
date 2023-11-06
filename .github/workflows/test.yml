@@ -89,3 +89,25 @@ jobs:
           set -x
           
           python3 --version 2>&1 | grep -F "3.9.18"
+
+  test_package_installation_using_pip:
+    runs-on: ubuntu-latest
+    container: amazonlinux:2023
+    steps:
+      - name: Setup runner
+        run: |
+          yum install -y git tar gzip sudo
+
+      - uses: actions/checkout@v3
+
+      - name: Install python
+        uses: ./
+        with:
+          python-version: 3.10
+
+      - name: Test installation
+        run: |
+          set -x
+
+          pip install requests
+          pip3 install s4cmd
