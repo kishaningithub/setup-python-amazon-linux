@@ -48,6 +48,10 @@ runs:
       run: |
         installation_directory=${{ steps.set-installation-directory.outputs.installation_directory }}
         echo "${installation_directory}/bin" >> ${GITHUB_PATH}
+        sudo yum install -y tree
+        cd "${installation_directory}"
+        tree
+        
 
 branding:
   icon: 'code'
