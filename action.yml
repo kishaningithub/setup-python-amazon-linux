@@ -48,6 +48,10 @@ runs:
       run: |
         installation_directory=${{ steps.set-installation-directory.outputs.installation_directory }}
         echo "${installation_directory}/bin" >> ${GITHUB_PATH}
+        
+        echo "Linking python libraries.."
+        ls "${installation_directory}/lib"
+        ldconfig "${installation_directory}/lib"
 
 branding:
   icon: 'code'
