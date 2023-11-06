@@ -58,6 +58,10 @@ runs:
 
         echo "The following python binaries are now available in the PATH"
         ls "${installation_directory}/bin"
+        
+        echo "Linking python libraries.."
+        ls "${installation_directory}/lib"
+        ldconfig "${installation_directory}/lib"
 
 branding:
   icon: 'code'
