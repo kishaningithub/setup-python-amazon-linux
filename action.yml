@@ -22,7 +22,7 @@ runs:
       id: find-exact-python-version
       shell: bash
       run: |
-        exact_python_version=$(${{ github.action_path }}/find-exact-python-version.sh "${{ inputs.python-version }}")
+        exact_python_version=$(${GITHUB_ACTION_PATH}/find-exact-python-version.sh "${{ inputs.python-version }}")
         echo "exact_python_version=${exact_python_version}" >> $GITHUB_OUTPUT
 
     - name: Set installation directory
@@ -48,7 +48,7 @@ runs:
         installation_directory=${{ steps.set-installation-directory.outputs.installation_directory }}
         mkdir -p "${installation_directory}"
         exact_python_version="${{ steps.find-exact-python-version.outputs.exact_python_version }}"
-        ${{ github.action_path }}/install-python.sh  "${exact_python_version}" "${installation_directory}"
+        ${GITHUB_ACTION_PATH}/install-python.sh  "${exact_python_version}" "${installation_directory}"
 
     - name: Add python to PATH
       shell: bash
