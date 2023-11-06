@@ -1,3 +1,5 @@
+# Contributing
+
 ## Context
 
 This action is built as a composite action, for more details kindly refer
