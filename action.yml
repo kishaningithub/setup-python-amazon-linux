@@ -47,8 +47,11 @@ runs:
       shell: bash
       run: |
         installation_directory=${{ steps.set-installation-directory.outputs.installation_directory }}
-        echo "${installation_directory}/bin" >> ${GITHUB_PATH}
-        
+        echo "${installation_directory}/bin" >> "${GITHUB_PATH}"
+
+        echo "The following python binaries are now available in the PATH"
+        ls "${installation_directory}/bin"
+
         echo "Linking python libraries.."
         ls "${installation_directory}/lib"
         ldconfig "${installation_directory}/lib"
