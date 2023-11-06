@@ -61,7 +61,7 @@ runs:
         
         echo "Linking python libraries.."
         ls "${installation_directory}/lib"
-        ldconfig "${installation_directory}/lib"
+        sudo ldconfig "${installation_directory}/lib"
 
 branding:
   icon: 'code'
