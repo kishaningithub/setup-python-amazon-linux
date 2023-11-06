@@ -11,6 +11,13 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Ensure dependencies of python are installed
+      shell: bash
+      run: |
+        sudo yum groupinstall -y "Development Tools"
+        sudo yum install -y gcc openssl-devel bzip2-devel libffi-devel
+        sudo yum install -y tar gzip wget
+
     - name: Find exact python version
       id: find-exact-python-version
       shell: bash
@@ -51,10 +58,6 @@ runs:
 
         echo "The following python binaries are now available in the PATH"
         ls "${installation_directory}/bin"
-
-        echo "Linking python libraries.."
-        ls "${installation_directory}/lib"
-        ldconfig "${installation_directory}/lib"
 
 branding:
   icon: 'code'
