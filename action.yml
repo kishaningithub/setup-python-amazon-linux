@@ -17,6 +17,7 @@ runs:
         sudo yum groupinstall -y "Development Tools"
         sudo yum install -y gcc openssl-devel bzip2-devel libffi-devel
         sudo yum install -y tar gzip wget
+        sudo yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel
 
     - name: Find exact python version
       id: find-exact-python-version
