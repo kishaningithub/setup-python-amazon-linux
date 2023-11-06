@@ -25,6 +25,13 @@ steps:
 
 For more options to the action, kindly refer [action.yml](./action.yml)
 
+## Supported amazon linux flavours
+
+- Amazon Linux 2
+- Amazon Linux 2023
+
+If you need support for more kindly raise an issue or a PR
+
 ## Implementation caveat
 
 This action compiles the desired version of python from source for the first time because the glibc version in use in 
@@ -37,13 +44,6 @@ python: /lib64/libc.so.6: version `GLIBC_2.28' not found
 
 Hence, only for the first time this action may like 3 to 4 minutes depending on the runner configuration. Post this only cache
 will be used and hence will be very fast (4 to 5 seconds)
-
-## Supported amazon linux flavours
-
-- Amazon Linux 2
-- Amazon Linux 2023 
-
-If you need support for more kindly raise an issue or a PR
 
 ## Contributing
 
