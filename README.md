@@ -2,20 +2,20 @@
 
 [![build-test](https://github.com/kishaningithub/setup-python-amazon-linux/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/kishaningithub/setup-python-amazon-linux/actions/workflows/test.yml)
 
-Github action to install python in all flavours of amazon linux. The goal of this action is to be a drop in replacement 
+Github action to install python in amazon linux. The goal of this action is to be a drop in replacement 
 for the github's official [setup-python action](https://github.com/actions/setup-python) to the maximum extent possible.
 
 ## Why?
 
 - This project exist because as of Nov 2023 [Github has no plans support amazon linux](https://github.com/actions/setup-python/issues/460#issuecomment-1185723652) for its official 
-[setup-python](https://github.com/actions/setup-python) action for amazon linux self hosted runners.
+[setup-python](https://github.com/actions/setup-python) action for amazon linux self-hosted runners.
 
 ## Implementation caveat
 
 This action compiles the desired version of python from source for the first time because the glibc version in use in 
 amazon linux 2 is very old (2.26) and the pre-made existing binary distributions fail with the following error
 
-```yaml
+```
 python: /lib64/libc.so.6: version `GLIBC_2.27' not found
 python: /lib64/libc.so.6: version `GLIBC_2.28' not found
 ```
