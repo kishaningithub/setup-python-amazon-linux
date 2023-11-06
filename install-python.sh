@@ -27,7 +27,7 @@ function setup_python() {
     wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
     tar -zxf "Python-${python_version}.tgz"
     pushd "Python-${python_version}" >/dev/null
-      ./configure --prefix="${python_installation_dir}" --enable-shared LDFLAGS="-Wl,-rpath ${python_installation_dir}/lib" --enable-optimizations
+      ./configure --prefix="${python_installation_dir}"
       make -j 8
       make install
     popd >/dev/null
