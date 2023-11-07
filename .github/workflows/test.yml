@@ -5,6 +5,7 @@ on: [ push ]
 jobs:
   test_python_installation:
     strategy:
+      fail-fast: false
       matrix:
         # This tests the amazon linux versions receiving standard support
         # Refer - https://endoflife.date/amazon-linux
@@ -88,6 +89,7 @@ jobs:
 
   test_pip_installs:
     strategy:
+      fail-fast: false
       matrix:
         amazon-linux-version: [ 2, 2023 ]
         python-version: [ 3.8, 3.12 ]
