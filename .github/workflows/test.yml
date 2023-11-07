@@ -92,7 +92,7 @@ jobs:
       fail-fast: false
       matrix:
         amazon-linux-version: [ 2, 2023 ]
-        python-version: [ 3.8, 3.12 ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11" , "3.12" ]
         cache: [ true, false ]
     runs-on: ubuntu-latest
     container: amazonlinux:${{ matrix.amazon-linux-version }}
