@@ -3,20 +3,17 @@ name: Test
 on: [ push ]
 
 jobs:
-  test_setup_python:
+  test_python_installation:
     strategy:
+      fail-fast: false
       matrix:
         # This tests the amazon linux versions receiving standard support
         # Refer - https://endoflife.date/amazon-linux
         amazon-linux-version: [ 2, 2023 ]
         # This tests the lowest supported python version and the latest stable python version
         # Refer - https://devguide.python.org/versions/#status-of-python-versions
-        python-version:
-          - 3.8.18
-          - 3.12.0
-        cache:
-          - true
-          - false
+        python-version: [ 3.8.18, 3.12.0 ]
+        cache: [ true, false ]
     runs-on: ubuntu-latest
     container: amazonlinux:${{ matrix.amazon-linux-version }}
     steps:
@@ -48,7 +45,7 @@ jobs:
           python --version 2>&1 | grep -F "${{ matrix.python-version }}"
           test "$(python3 -m pip --version)" = "$(pip --version)"
 
-  test_major_version_specification:
+  test_major_version_installation:
     runs-on: ubuntu-latest
     container: amazonlinux:2023
     steps:
@@ -61,7 +58,7 @@ jobs:
       - name: Install python
         uses: ./
         with:
-          python-version: 3
+          python-version: "3"
 
       - name: Test installation
         run: |
@@ -69,7 +66,7 @@ jobs:
           
           python3 --version 2>&1 | grep -F "3.12.0"
 
-  test_minor_version_specification:
+  test_minor_version_installation:
     runs-on: ubuntu-latest
     container: amazonlinux:2023
     steps:
@@ -82,10 +79,39 @@ jobs:
       - name: Install python
         uses: ./
         with:
-          python-version: 3.9
+          python-version: "3.9"
 
       - name: Test installation
         run: |
           set -x
           
           python3 --version 2>&1 | grep -F "3.9.18"
+
+  test_pip_installs:
+    strategy:
+      fail-fast: false
+      matrix:
+        amazon-linux-version: [ 2, 2023 ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11" , "3.12" ]
+        cache: [ true, false ]
+    runs-on: ubuntu-latest
+    container: amazonlinux:${{ matrix.amazon-linux-version }}
+    steps:
+      - name: Setup runner
+        run: |
+          yum install -y git tar gzip sudo
+
+      - uses: actions/checkout@v3
+
+      - name: Install python
+        uses: ./
+        with:
+          python-version: "${{ matrix.python-version }}"
+          cache: ${{ matrix.cache }}
+
+      - name: Test installation
+        run: |
+          set -x
+
+          pip install requests
+          pip3 install s4cmd

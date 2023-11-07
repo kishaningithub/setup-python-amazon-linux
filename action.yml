@@ -14,9 +14,7 @@ runs:
     - name: Ensure dependencies of python are installed
       shell: bash
       run: |
-        sudo yum groupinstall -y "Development Tools"
-        sudo yum install -y gcc openssl-devel bzip2-devel libffi-devel
-        sudo yum install -y tar gzip wget
+        ${GITHUB_ACTION_PATH}/install-system-dependencies.sh
 
     - name: Find exact python version
       id: find-exact-python-version
