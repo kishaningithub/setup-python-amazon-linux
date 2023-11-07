@@ -20,7 +20,7 @@ function setup_python() {
     pushd "Python-${python_version}" >/dev/null
       # Have not added --enable-optimizations flag because that shoots up the build time by ~5 minutes
       # Ref for openssl - https://gist.github.com/wizardbeard/d5b641d1fadbaba755823e16eab4dda1#file-python-3-9-slim-dockerfile-L17
-      ./configure --prefix="${python_installation_dir}" --enable-shared --with-openssl=/usr/include/openssl
+      ./configure --prefix="${python_installation_dir}" --enable-shared --with-openssl=/usr/include
       make -j "$(nproc)"
       make install
     popd >/dev/null
