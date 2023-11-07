@@ -18,9 +18,11 @@ function setup_python() {
     wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
     tar -zxf "Python-${python_version}.tgz"
     pushd "Python-${python_version}" >/dev/null
-      # Have not added --enable-optimizations flag because that shoots up the build time by ~5 minutes
-      # Ref for openssl - https://gist.github.com/wizardbeard/d5b641d1fadbaba755823e16eab4dda1#file-python-3-9-slim-dockerfile-L17
-      ./configure --prefix="${python_installation_dir}" --enable-shared --with-openssl=/usr/include
+      # - Have not added --enable-optimizations flag because that shoots up the build time by ~5 minutes
+      # - Ref for openssl
+      #     - https://gist.github.com/wizardbeard/d5b641d1fadbaba755823e16eab4dda1#file-python-3-9-slim-dockerfile-L17
+      #     - https://stackoverflow.com/a/29169795/3316017
+      ./configure --prefix="${python_installation_dir}" --enable-shared --with-ssl
       make -j "$(nproc)"
       make install
     popd >/dev/null
