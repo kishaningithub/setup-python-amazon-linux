@@ -3,7 +3,7 @@ name: Test
 on: [ push ]
 
 jobs:
-  test_setup_python:
+  test_python_installation:
     strategy:
       matrix:
         # This tests the amazon linux versions receiving standard support
@@ -44,7 +44,7 @@ jobs:
           python --version 2>&1 | grep -F "${{ matrix.python-version }}"
           test "$(python3 -m pip --version)" = "$(pip --version)"
 
-  test_major_version_specification:
+  test_major_version_installation:
     runs-on: ubuntu-latest
     container: amazonlinux:2023
     steps:
@@ -65,7 +65,7 @@ jobs:
           
           python3 --version 2>&1 | grep -F "3.12.0"
 
-  test_minor_version_specification:
+  test_minor_version_installation:
     runs-on: ubuntu-latest
     container: amazonlinux:2023
     steps:
@@ -86,7 +86,7 @@ jobs:
           
           python3 --version 2>&1 | grep -F "3.9.18"
 
-  test_package_installation_using_pip:
+  test_pip_installs:
     strategy:
       matrix:
         amazon-linux-version: [ 2, 2023 ]
