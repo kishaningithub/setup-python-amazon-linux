@@ -2,13 +2,12 @@
 
 set -euo pipefail
 
-# Follows the guidelines from https://realpython.com/installing-python/#how-to-build-python-from-source-code
-
 function set_aliases() {
   ln -sf "${python_installation_dir}/bin/python3" "${python_installation_dir}/bin/python"
   ln -sf "${python_installation_dir}/bin/pip3" "${python_installation_dir}/bin/pip"
 }
 
+# Reference - https://realpython.com/installing-python/#how-to-build-python-from-source-code
 function setup_python() {
   python_version="$1"
   python_installation_dir="$2"

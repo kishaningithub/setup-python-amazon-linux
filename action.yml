@@ -14,6 +14,7 @@ runs:
     - name: Ensure dependencies of python are installed
       shell: bash
       run: |
+        # Reference https://stackoverflow.com/a/73208851/3316017
         sudo yum groupinstall -y "Development Tools"
         sudo yum install -y openssl-devel zlib-devel bzip2-devel readline-devel libffi-devel \
                             ncurses-devel sqlite-devel gdbm-devel tk-devel \
