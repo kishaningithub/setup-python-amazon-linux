@@ -23,7 +23,7 @@ function setup_python() {
       #     - https://gist.github.com/wizardbeard/d5b641d1fadbaba755823e16eab4dda1#file-python-3-9-slim-dockerfile-L17
       #     - https://stackoverflow.com/a/29169795/3316017
       #     - https://stackoverflow.com/a/75880038/3316017
-      ./configure --prefix="${python_installation_dir}" --enable-shared --with-ssl --with-openssl-rpath=/usr/lib64
+      ./configure --prefix="${python_installation_dir}" --enable-shared --with-openssl=/usr --with-openssl-rpath=/usr/lib64
       make -j "$(nproc)"
       make install
     popd >/dev/null
