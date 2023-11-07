@@ -19,7 +19,7 @@ function setup_python() {
     tar -zxf "Python-${python_version}.tgz"
     pushd "Python-${python_version}" >/dev/null
       # Have not added --enable-optimizations flag because that shoots up the build time by ~5 minutes
-      ./configure --prefix="${python_installation_dir}" --enable-shared
+      ./configure --prefix="${python_installation_dir}" --enable-shared -with-openssl=/etc/pki/tls
       make -j 8
       make install
     popd >/dev/null
