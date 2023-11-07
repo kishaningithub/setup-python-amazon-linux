@@ -11,12 +11,8 @@ jobs:
         amazon-linux-version: [ 2, 2023 ]
         # This tests the lowest supported python version and the latest stable python version
         # Refer - https://devguide.python.org/versions/#status-of-python-versions
-        python-version:
-          - 3.8.18
-          - 3.12.0
-        cache:
-          - true
-          - false
+        python-version: [ 3.8.18, 3.12.0 ]
+        cache: [ true, false ]
     runs-on: ubuntu-latest
     container: amazonlinux:${{ matrix.amazon-linux-version }}
     steps:
@@ -94,8 +90,8 @@ jobs:
     strategy:
       matrix:
         amazon-linux-version: [ 2, 2023 ]
-        python-version: [3.8, 3.12]
-        cache: [true, false]
+        python-version: [ 3.8, 3.12 ]
+        cache: [ true, false ]
     runs-on: ubuntu-latest
     container: amazonlinux:${{ matrix.amazon-linux-version }}
     steps:
