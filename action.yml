@@ -5,7 +5,7 @@ inputs:
     description: 'Version of python to be installed. Reads from .python-version if unset.'
   python-version-file:
     description: 'Version of python to be installed'
-    default: ".python-version"
+    default: '.python-version'
   cache:
     description: Used to specify whether caching is needed. Set to true, if you'd like to enable caching.
     required: true
