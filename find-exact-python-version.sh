@@ -3,11 +3,17 @@
 set -euo pipefail
 
 specified_version="$1"
+specified_version_file="$2"
+
+desired_python_version="${specified_version}"
+if [ -f "${specified_version_file}" ]; then
+  desired_python_version=$(cat "${specified_version_file}")
+fi
 
 # This versions map should be kept in sync with
 # - https://www.python.org/downloads/
 # - https://devguide.python.org/versions/
-case "${specified_version}" in
+case "${desired_python_version}" in
     "3")
         echo "3.12.0"
         ;;
@@ -27,6 +33,6 @@ case "${specified_version}" in
         echo "3.8.18"
         ;;
     *)
-        echo "${specified_version}"
+        echo "${desired_python_version}"
         ;;
 esac

@@ -2,8 +2,10 @@ name: 'Setup python amazon linux'
 description: 'setup-python action for amazon linux self hosted runners'
 inputs:
   python-version:
+    description: 'Version of python to be installed. Reads from .python-version if unset.'
+  python-version-file:
     description: 'Version of python to be installed'
-    required: true
+    default: '.python-version'
   cache:
     description: Used to specify whether caching is needed. Set to true, if you'd like to enable caching.
     required: true
@@ -20,7 +22,7 @@ runs:
       id: find-exact-python-version
       shell: bash
       run: |
-        exact_python_version=$(${GITHUB_ACTION_PATH}/find-exact-python-version.sh "${{ inputs.python-version }}")
+        exact_python_version=$(${GITHUB_ACTION_PATH}/find-exact-python-version.sh "${{ inputs.python-version }}" "${{ inputs.python-version-file }}")
         echo "exact_python_version=${exact_python_version}" >> $GITHUB_OUTPUT
 
     - name: Set installation directory

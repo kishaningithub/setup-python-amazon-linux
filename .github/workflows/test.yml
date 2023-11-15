@@ -100,3 +100,38 @@ jobs:
 
           pip install requests
           pip3 install s4cmd
+
+  test_python_version_file:
+    runs-on: ubuntu-latest
+    container: amazonlinux:2023
+    steps:
+      - name: Setup runner
+        run: |
+          yum install -y git tar gzip sudo
+
+      - uses: actions/checkout@v3
+
+      - name: Create python version file
+        run: |
+          echo '3.11.5' > .python-version
+
+      - name: Install python
+        uses: ./
+        with:
+          python-version-file: ".python-version"
+
+      - name: Test installation
+        run: |
+          set -x
+
+          which python3
+          which python
+
+          python3 --version
+          python --version
+
+          python3 --version 2>&1 | grep -F "3.11.5"
+          test "$(python3 -m pip --version)" = "$(pip3 --version)"
+
+          python --version 2>&1 | grep -F "3.11.5"
+          test "$(python3 -m pip --version)" = "$(pip --version)"
