@@ -23,6 +23,17 @@ steps:
 - run: python my_script.py
 ```
 
+The `python-version` input is optional. If not supplied, the action will try to resolve the version from the default
+`.python-version` file. Highly recommend always setting Python version explicitly using the `python-version` or
+`python-version-file` inputs.
+
+```yaml
+steps:
+- uses: kishaningithub/setup-python-amazon-linux@v1
+  with:
+    python-version-file: '.python-version'
+```
+
 For more options to the action, kindly refer [action.yml](./action.yml)
 
 ## Supported amazon linux flavours
