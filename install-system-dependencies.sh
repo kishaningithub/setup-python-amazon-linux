@@ -11,7 +11,14 @@ if yum info "openssl11-devel" &>/dev/null; then
   desired_openssl_package="openssl11-devel"
 fi
 
-sudo yum groupinstall -y "Development Tools"
-sudo yum install -y "${desired_openssl_package}" zlib-devel bzip2 bzip2-devel readline-devel libffi-devel \
+desired_lib_crypt="libcrypt"
+if yum info "libxcrypt-compat" &>/dev/null; then
+  desired_lib_crypt="libxcrypt-compat"
+fi
+
+dynamic_package_list="${desired_openssl_package} ${desired_lib_crypt}"
+
+sudo yum install -y gcc make  \
+  ${dynamic_package_list} zlib-devel bzip2 bzip2-devel readline-devel libffi-devel \
   ncurses-devel sqlite sqlite-devel gdbm-devel tk-devel xz-devel \
-  tar gzip wget
+  tar gzip wget which
