@@ -98,7 +98,11 @@ jobs:
         run: |
           set -x
 
+          pip install s4cmd
           pip install requests
+          pip install boto3
+
+          pip3 install requests
           pip3 install s4cmd
           pip3 install boto3
 
