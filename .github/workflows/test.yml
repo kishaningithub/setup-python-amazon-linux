@@ -51,7 +51,7 @@ jobs:
       matrix:
         include:
           - python-version: "3"
-            installed-python-version: "3.12.0"
+            installed-python-version: "3.12.2"
           - python-version: "3.9"
             installed-python-version: "3.9.18"
     runs-on: ubuntu-latest
