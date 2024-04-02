@@ -48,7 +48,7 @@ runs:
         installation_directory=${{ steps.set-installation-directory.outputs.installation_directory }}
         mkdir -p "${installation_directory}"
         exact_python_version="${{ steps.find-exact-python-version.outputs.exact_python_version }}"
-        ${GITHUB_ACTION_PATH}/install-python.sh  "${exact_python_version}" "${installation_directory}"
+        ${GITHUB_ACTION_PATH}/install-python.sh "${exact_python_version}" "${installation_directory}"
 
     - name: Add python to PATH
       shell: bash
@@ -59,7 +59,7 @@ runs:
         echo "The following python binaries are now available in the PATH"
         ls "${installation_directory}/bin"
         
-        echo "Linking python libraries.."
+        echo "Linking python libraries..."
         ls "${installation_directory}/lib"
         sudo ldconfig "${installation_directory}/lib"
 
