@@ -59,4 +59,3 @@ will be used and hence will be very fast (4 to 5 seconds)
 ## Contributing
 
 Contributions are most welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md)
-
