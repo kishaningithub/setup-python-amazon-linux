@@ -9,11 +9,16 @@ function set_aliases() {
 
 # Reference - https://realpython.com/installing-python/#how-to-build-python-from-source-code
 function setup_python() {
-  python_version="$1"
-  python_installation_dir="$2"
+  python_version="${1:?}"
+  python_installation_dir="${2:?}"
+  temp_dir="${3:?}"
 
   mkdir -p "${python_installation_dir}"
-  temp_dir=$(mktemp -d)
+  mkdir -p "${temp_dir}"
+  rm -rf "${python_installation_dir:?}/*"
+  rm -rf "${temp_dir:?}/*"
+
+  echo "Installing python from temporary directory ${temp_dir}"
   pushd "${temp_dir}" >/dev/null
     wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
     tar -zxf "Python-${python_version}.tgz"
@@ -34,4 +39,4 @@ function setup_python() {
   set_aliases
 }
 
-setup_python "$1" "$2"
+setup_python "$1" "$2" "$3"
