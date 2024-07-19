@@ -15,22 +15,22 @@ fi
 # - https://devguide.python.org/versions/
 case "${desired_python_version}" in
     "3")
-        echo "3.12.2"
+        echo "3.12.4"
         ;;
     "3.12")
-        echo "3.12.2"
+        echo "3.12.4"
         ;;
     "3.11")
-        echo "3.11.8"
+        echo "3.11.9"
         ;;
     "3.10")
-        echo "3.10.13"
+        echo "3.10.14"
         ;;
     "3.9")
-        echo "3.9.18"
+        echo "3.9.19"
         ;;
     "3.8")
-        echo "3.8.18"
+        echo "3.8.19"
         ;;
     *)
         echo "${desired_python_version}"
