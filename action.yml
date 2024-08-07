@@ -34,7 +34,7 @@ runs:
 
     - name: Cache
       id: cache-python
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       if: inputs.cache == 'true'
       with:
         path: ${{ steps.set-installation-directory.outputs.installation_directory }}
