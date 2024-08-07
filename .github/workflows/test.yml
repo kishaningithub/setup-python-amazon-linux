@@ -1,6 +1,10 @@
 name: Test
 
-on: [ push ]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 env:
   # This is required to support GLIB versions present in amazon linux 2. Can be removed once amazon linux 2 is 💀
