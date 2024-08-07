@@ -32,7 +32,7 @@ runs:
         exact_python_version="${{ steps.find-exact-python-version.outputs.exact_python_version }}"
         echo "installation_directory=${HOME}/.setup-python-amazon-linux/.python-versions/${exact_python_version}" >> $GITHUB_OUTPUT
 
-    - name: Cache
+    - name: Cache 
       id: cache-python
       uses: actions/cache@v4
       if: inputs.cache == 'true'
