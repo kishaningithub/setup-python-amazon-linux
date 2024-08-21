@@ -6,13 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  # This is required to support GLIB versions present in amazon linux 2. Can be removed once amazon linux 2 is 💀
-  # More info
-  #  - https://github.com/actions/checkout/issues/1809#issuecomment-2208202462
-  #  - https://github.blog/changelog/2024-03-07-github-actions-all-actions-will-run-on-node20-instead-of-node16-by-default/
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
 jobs:
   test_python_installation:
     strategy:
@@ -32,7 +25,9 @@ jobs:
         run: |
           yum install -y git tar gzip sudo which
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        run: |
+          git clone --depth 1 -b "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" "https://github.com/${GITHUB_REPOSITORY}.git" .
 
       - name: Install python
         uses: ./
@@ -79,7 +74,9 @@ jobs:
       - name: Setup runner
         run: yum install -y git tar gzip sudo
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        run: |
+          git clone --depth 1 -b "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" "https://github.com/${GITHUB_REPOSITORY}.git" .
 
       - name: Install python
         uses: ./
@@ -105,7 +102,9 @@ jobs:
         run: |
           yum install -y git tar gzip sudo
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        run: |
+          git clone --depth 1 -b "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" "https://github.com/${GITHUB_REPOSITORY}.git" .
 
       - name: Install python
         uses: ./
@@ -129,7 +128,9 @@ jobs:
         run: |
           yum install -y git tar gzip sudo
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        run: |
+          git clone --depth 1 -b "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" "https://github.com/${GITHUB_REPOSITORY}.git" .
 
       - name: Create python version file
         run: |

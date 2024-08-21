@@ -32,17 +32,17 @@ runs:
         exact_python_version="${{ steps.find-exact-python-version.outputs.exact_python_version }}"
         echo "installation_directory=${HOME}/.setup-python-amazon-linux/.python-versions/${exact_python_version}" >> $GITHUB_OUTPUT
 
-    - name: Cache
-      id: cache-python
-      uses: actions/cache@v3
-      if: inputs.cache == 'true'
-      with:
-        path: ${{ steps.set-installation-directory.outputs.installation_directory }}
-        key: python-${{ steps.find-exact-python-version.outputs.exact_python_version }}-${{ runner.arch }}
+#    - name: Cache
+#      id: cache-python
+#      uses: actions/cache@v3
+#      if: inputs.cache == 'true'
+#      with:
+#        path: ${{ steps.set-installation-directory.outputs.installation_directory }}
+#        key: python-${{ steps.find-exact-python-version.outputs.exact_python_version }}-${{ runner.arch }}
 
     - id: setup-python
       shell: bash
-      if: inputs.cache == 'false' || (inputs.cache == 'true' && steps.cache-python.outputs.cache-hit != 'true')
+#      if: inputs.cache == 'false' || (inputs.cache == 'true' && steps.cache-python.outputs.cache-hit != 'true')
       run: |
         installation_directory="${{ steps.set-installation-directory.outputs.installation_directory }}"
         exact_python_version="${{ steps.find-exact-python-version.outputs.exact_python_version }}"
@@ -61,7 +61,7 @@ runs:
 
         echo "The following python binaries are now available in the PATH"
         ls "${installation_directory}/bin"
-        
+
         echo "Linking python libraries..."
         ls "${installation_directory}/lib"
         sudo ldconfig "${installation_directory}/lib"
