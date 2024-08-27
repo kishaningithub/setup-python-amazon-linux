@@ -26,7 +26,7 @@ runs:
       run: |
         curl --proto '=https' --tlsv1.2 -LsSf https://github.com/astral-sh/uv/releases/download/0.3.3/uv-installer.sh | sh
         source $HOME/.cargo/env
-        uv self update
+        sudo uv self update
 
     - name: Find desired python version
       id: find-desired-python-version
