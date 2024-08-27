@@ -7,51 +7,48 @@ inputs:
     description: 'Version of python to be installed'
     default: '.python-version'
   cache:
-    description: Used to specify whether caching is needed. Set to true, if you'd like to enable caching.
-    required: true
+    description: > 
+      [Deprecated] Used to specify whether caching is needed. Set to true, if you'd like to enable caching.
+      Current implementation uses uv which pulls in pre-compiled binaries of python thereby eliminating the
+      need to cache compiled python artifacts.
     default: 'true'
+
 runs:
   using: "composite"
   steps:
-    - name: Ensure dependencies of python are installed
+    - name: Ensure system dependencies are installed
       shell: bash
       run: |
-        ${GITHUB_ACTION_PATH}/install-system-dependencies.sh
+        sudo yum install -y tar gzip which
 
-    - name: Find exact python version
-      id: find-exact-python-version
+    - name: Install uv
       shell: bash
       run: |
-        exact_python_version=$(${GITHUB_ACTION_PATH}/find-exact-python-version.sh "${{ inputs.python-version }}" "${{ inputs.python-version-file }}")
-        echo "exact_python_version=${exact_python_version}" >> $GITHUB_OUTPUT
+        curl --proto '=https' --tlsv1.2 -LsSf https://github.com/astral-sh/uv/releases/download/0.3.3/uv-installer.sh | sh
+        source $HOME/.cargo/env
+        uv self update
+
+    - name: Find desired python version
+      id: find-desired-python-version
+      shell: bash
+      run: |
+        desired_python_version=$(${GITHUB_ACTION_PATH}/find-desired-python-version.sh "${{ inputs.python-version }}" "${{ inputs.python-version-file }}")
+        echo "desired_python_version=${desired_python_version}" | tee -a "${GITHUB_OUTPUT}"
 
     - name: Set installation directory
       id: set-installation-directory
       shell: bash
       run: |
-        exact_python_version="${{ steps.find-exact-python-version.outputs.exact_python_version }}"
-        echo "installation_directory=${HOME}/.setup-python-amazon-linux/.python-versions/${exact_python_version}" >> $GITHUB_OUTPUT
-
-    - name: Cache
-      id: cache-python
-      uses: actions/cache@v3
-      if: inputs.cache == 'true'
-      with:
-        path: ${{ steps.set-installation-directory.outputs.installation_directory }}
-        key: python-${{ steps.find-exact-python-version.outputs.exact_python_version }}-${{ runner.arch }}
+        desired_python_version="${{ steps.find-desired-python-version.outputs.desired_python_version }}"
+        echo "installation_directory=${HOME}/.setup-python-amazon-linux/.python-versions/${desired_python_version}" | tee -a "${GITHUB_OUTPUT}"
 
     - id: setup-python
       shell: bash
-      if: inputs.cache == 'false' || (inputs.cache == 'true' && steps.cache-python.outputs.cache-hit != 'true')
       run: |
         installation_directory="${{ steps.set-installation-directory.outputs.installation_directory }}"
-        exact_python_version="${{ steps.find-exact-python-version.outputs.exact_python_version }}"
+        desired_python_version="${{ steps.find-desired-python-version.outputs.desired_python_version }}"
 
-        # Using a separate tmp directory instead of /tmp because in some OS images set a noexec option for the mount
-        # this is a better way compared to changing the mount options of /tmp
-        tmp_directory="${HOME}/.setup-python-amazon-linux/tmp"
-
-        ${GITHUB_ACTION_PATH}/install-python.sh "${exact_python_version}" "${installation_directory}" "${tmp_directory}"
+        uv venv --python "${desired_python_version}" "${installation_directory}"
 
     - name: Add python to PATH
       shell: bash
@@ -61,10 +58,15 @@ runs:
 
         echo "The following python binaries are now available in the PATH"
         ls "${installation_directory}/bin"
-        
-        echo "Linking python libraries..."
-        ls "${installation_directory}/lib"
-        sudo ldconfig "${installation_directory}/lib"
+
+    - name: Install pip
+      shell: bash
+      run: |
+        installation_directory="${{ steps.set-installation-directory.outputs.installation_directory }}"
+
+        python -m ensurepip --upgrade
+        ln -sf "${installation_directory}/bin/pip3" "${installation_directory}/bin/pip"
+        pip install --upgrade pip
 
 branding:
   icon: 'code'

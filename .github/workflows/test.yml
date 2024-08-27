@@ -6,13 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  # This is required to support GLIB versions present in amazon linux 2. Can be removed once amazon linux 2 is 💀
-  # More info
-  #  - https://github.com/actions/checkout/issues/1809#issuecomment-2208202462
-  #  - https://github.blog/changelog/2024-03-07-github-actions-all-actions-will-run-on-node20-instead-of-node16-by-default/
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
 jobs:
   test_python_installation:
     strategy:
@@ -30,9 +23,11 @@ jobs:
     steps:
       - name: Setup runner
         run: |
-          yum install -y git tar gzip sudo which
+          yum install -y git sudo tar gzip which
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        run: |
+          git clone --depth 1 -b "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" "https://github.com/${GITHUB_REPOSITORY}.git" .
 
       - name: Install python
         uses: ./
@@ -56,41 +51,6 @@ jobs:
           python --version 2>&1 | grep -F "${{ matrix.python-version }}"
           test "$(python3 -m pip --version)" = "$(pip --version)"
 
-  test_abstract_version_specification:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - python-version: "3"
-            installed-python-version: "3.12.4"
-          - python-version: "3.12"
-            installed-python-version: "3.12.4"
-          - python-version: "3.11"
-            installed-python-version: "3.11.9"
-          - python-version: "3.10"
-            installed-python-version: "3.10.14"
-          - python-version: "3.9"
-            installed-python-version: "3.9.19"
-          - python-version: "3.8"
-            installed-python-version: "3.8.19"
-    runs-on: ubuntu-latest
-    container: amazonlinux:2023
-    steps:
-      - name: Setup runner
-        run: yum install -y git tar gzip sudo
-
-      - uses: actions/checkout@v3
-
-      - name: Install python
-        uses: ./
-        with:
-          python-version: "${{ matrix.python-version }}"
-
-      - name: Test installation
-        run: |
-          set -x
-          python3 --version 2>&1 | grep -F "${{ matrix.installed-python-version }}"
-
   test_pip_installs:
     strategy:
       fail-fast: false
@@ -103,9 +63,11 @@ jobs:
     steps:
       - name: Setup runner
         run: |
-          yum install -y git tar gzip sudo
+          yum install -y git sudo tar gzip which
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        run: |
+          git clone --depth 1 -b "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" "https://github.com/${GITHUB_REPOSITORY}.git" .
 
       - name: Install python
         uses: ./
@@ -127,9 +89,11 @@ jobs:
     steps:
       - name: Setup runner
         run: |
-          yum install -y git tar gzip sudo
+          yum install -y git sudo tar gzip which
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        run: |
+          git clone --depth 1 -b "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" "https://github.com/${GITHUB_REPOSITORY}.git" .
 
       - name: Create python version file
         run: |
