@@ -24,9 +24,7 @@ runs:
     - name: Install uv
       shell: bash
       run: |
-        curl --proto '=https' --tlsv1.2 -LsSf https://github.com/astral-sh/uv/releases/download/0.3.3/uv-installer.sh | sh
-        source $HOME/.cargo/env
-        sudo uv self update
+        curl -LsSf https://astral.sh/uv/install.sh | sh
 
     - name: Find desired python version
       id: find-desired-python-version
