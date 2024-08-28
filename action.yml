@@ -24,7 +24,7 @@ runs:
     - name: Install uv
       shell: bash
       run: |
-        curl -LsSf https://astral.sh/uv/install.sh | sh
+        curl -LsSf https://astral.sh/uv/install.sh | bash
 
     - name: Find desired python version
       id: find-desired-python-version
