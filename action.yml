@@ -7,7 +7,7 @@ inputs:
     description: 'Version of python to be installed'
     default: '.python-version'
   cache:
-    description: > 
+    description: >
       [Deprecated] Used to specify whether caching is needed. Set to true, if you'd like to enable caching.
       Current implementation uses uv which pulls in pre-compiled binaries of python thereby eliminating the
       need to cache compiled python artifacts.
@@ -24,7 +24,8 @@ runs:
     - name: Install uv
       shell: bash
       run: |
-        curl -LsSf https://astral.sh/uv/install.sh | bash
+        echo "Installing uv.. HOME=${HOME}"
+        curl -LsSf https://astral.sh/uv/install.sh | bash --login
 
     - name: Find desired python version
       id: find-desired-python-version
