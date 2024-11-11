@@ -24,8 +24,11 @@ runs:
     - name: Install uv
       shell: bash
       run: |
-        echo "Installing uv.. HOME=${HOME}"
-        curl -LsSf https://astral.sh/uv/install.sh | bash --login
+        installation_directory="${HOME}/.setup-python-amazon-linux/uv"
+        echo "Installing uv.. installation_directory=${installation_directory}"
+        uv_version="0.5.1"
+        curl -LsSf "https://github.com/astral-sh/uv/releases/download/${uv_version}/uv-installer.sh" | UV_UNMANAGED_INSTALL="${installation_directory}" bash --login
+        echo "${installation_directory}" >> "${GITHUB_PATH}"
 
     - name: Find desired python version
       id: find-desired-python-version
