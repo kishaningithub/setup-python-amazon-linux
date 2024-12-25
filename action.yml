@@ -26,7 +26,7 @@ runs:
       run: |
         installation_directory="${HOME}/.setup-python-amazon-linux/uv"
         echo "Installing uv.. installation_directory=${installation_directory}"
-        uv_version="0.5.1"
+        uv_version="0.5.11"
         curl -LsSf "https://github.com/astral-sh/uv/releases/download/${uv_version}/uv-installer.sh" | UV_UNMANAGED_INSTALL="${installation_directory}" bash --login
         echo "${installation_directory}" >> "${GITHUB_PATH}"
 
