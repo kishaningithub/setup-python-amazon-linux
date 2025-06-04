@@ -27,7 +27,8 @@ runs:
         installation_directory="${{ github.action_path }}/.setup-python-amazon-linux/uv"
         echo "Installing uv.. installation_directory=${installation_directory}"
         uv_version="0.7.10"
-        curl -LsSf "https://github.com/astral-sh/uv/releases/download/${uv_version}/uv-installer.sh" | UV_UNMANAGED_INSTALL="${installation_directory}" bash --login
+        # HOME is set to foobar till this is resolved https://github.com/astral-sh/uv/issues/6965#issuecomment-2915796022
+        curl -LsSf "https://github.com/astral-sh/uv/releases/download/${uv_version}/uv-installer.sh" | HOME="foobar" UV_UNMANAGED_INSTALL="${installation_directory}" bash --login
         echo "${installation_directory}" >> "${GITHUB_PATH}"
 
     - name: Find desired python version
