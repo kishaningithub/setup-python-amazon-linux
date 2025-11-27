@@ -1,6 +1,7 @@
 name: Lint GitHub Actions workflows
 
-on: [ push ]
+on:
+  - push
 
 jobs:
   actionlint:
