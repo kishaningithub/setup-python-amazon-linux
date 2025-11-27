@@ -176,7 +176,7 @@ jobs:
           set -x
 
           if [[ "${{ steps.test-installation.outcome }}" == "success" ]]; then
-            echo "error: The action should have failed because both python-version and python-version-file were not given"
+            echo "error: The action should have failed because both python-version and python-version-file were not given but it has suceeded."
             exit 1
           else
             echo "success: The action successfully failed because both python-version and python-version-file were not given"
