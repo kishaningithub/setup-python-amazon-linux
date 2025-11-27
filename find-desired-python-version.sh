@@ -6,7 +6,8 @@ specified_version="$1"
 specified_version_file="$2"
 
 desired_python_version="${specified_version}"
-if [ -f "${specified_version_file}" ]; then
+
+if [[ -z "${desired_python_version}" && -f "${specified_version_file}" ]]; then
   desired_python_version=$(cat "${specified_version_file}")
 fi
 

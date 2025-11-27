@@ -2,7 +2,7 @@ name: 'Setup python amazon linux'
 description: 'setup-python action for amazon linux self hosted runners'
 inputs:
   python-version:
-    description: 'Version of python to be installed. Reads from .python-version if unset.'
+    description: 'Version of python to be installed. Reads from python-version-file if unset.'
   python-version-file:
     description: 'Version of python to be installed'
     default: '.python-version'
