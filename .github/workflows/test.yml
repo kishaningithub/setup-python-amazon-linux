@@ -152,3 +152,32 @@ jobs:
           python --version
 
           python3 --version 2>&1 | grep -F "3.13"
+
+  test_invalid_action_input:
+    runs-on: ubuntu-latest
+    container: amazonlinux:2023
+    steps:
+      - name: Setup runner
+        run: |
+          yum install -y git sudo tar gzip which
+
+      - name: Checkout
+        run: |
+          git clone --depth 1 -b "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" "https://github.com/${GITHUB_REPOSITORY}.git" .
+
+      - name: Install python
+        id: test-installation
+        continue-on-error: true
+        uses: ./
+
+      - name: Test python version
+        shell: bash
+        run: |
+          set -x
+
+          if [[ "${{ steps.test-installation.outcome }}" == "success" ]]; then
+            echo "error: The action should have failed because both python-version and python-version-file were not given"
+            exit 1
+          else
+            echo "success: The action successfully failed because both python-version and python-version-file were not given"
+          fi
