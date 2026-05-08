@@ -19,14 +19,16 @@ runs:
     - name: Ensure system dependencies are installed
       shell: bash
       run: |
-        sudo yum install -y tar gzip which
+        command -v tar &>/dev/null || sudo yum install -y tar
+        command -v gzip &>/dev/null || sudo yum install -y gzip
+        command -v which &>/dev/null || sudo yum install -y which
 
     - name: Install uv
       shell: bash
       run: |
         installation_directory="${{ github.action_path }}/.setup-python-amazon-linux/uv"
         echo "Installing uv.. installation_directory=${installation_directory}"
-        uv_version="0.9.13"
+        uv_version="0.11.11"
         curl -LsSf "https://github.com/astral-sh/uv/releases/download/${uv_version}/uv-installer.sh" | UV_UNMANAGED_INSTALL="${installation_directory}" bash --login
         echo "${installation_directory}" >> "${GITHUB_PATH}"
 
