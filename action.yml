@@ -1,6 +1,9 @@
 name: 'Setup python amazon linux'
 description: 'setup-python action for amazon linux self hosted runners'
 inputs:
+  install-pip:
+    description: 'Whether to install pip. Default true.'
+    default: 'true'
   python-version:
     description: 'Version of python to be installed. Reads from python-version-file if unset.'
   python-version-file:
@@ -64,6 +67,7 @@ runs:
         ls "${installation_directory}/bin"
 
     - name: Install pip
+      if: ${{ inputs.install-pip == 'true' }}
       shell: bash
       run: |
         installation_directory="${{ steps.set-installation-directory.outputs.installation_directory }}"
